@@ -1,0 +1,7 @@
+name: schem-browser
+displayName: Schematic Browser 
+author: Evelyn
+description: Adds an online schematic browser.
+version: 1.0
+minGameVersion: 136
+hidden: true
