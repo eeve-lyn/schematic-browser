@@ -9,7 +9,7 @@ let repos = {
     save: () => { Core.settings.put(repos.setting, repos.content.join(";"));},
     add: (repo) => {
         if (repos.content.indexOf(repo) != -1) return;
-        const stringsToRemove = ["git@github.com:", "test.git", "https://github.com/"];
+        const stringsToRemove = ["git@github.com:", ".git", "https://github.com/"];
         repos.content = repos.content.filter(repo => !stringsToRemove.some(str => repo.includes(str)));
         repos.content.push(repo);
         repos.save();
