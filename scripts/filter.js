@@ -1,26 +1,10 @@
-let filters = {
-    text: "",
-    desc: ""
-}
+const filters = { text: "", desc: "" };
 
-let textFilter = (schem) => {
-    if (filters["text"] == "") return true;
-    return schem.name().toLowerCase().includes(filters["text"])
-}
-
-let descFilter = (schem) => {
-    if (filters["desc"] == "") return true;
-    return schem.description().toLowerCase().includes(filters["desc"])
-}
+const textFilter = (schem) => filters.text === "" || schem.name().toLowerCase().includes(filters.text.toLowerCase());
+const descFilter = (schem) => filters.desc === "" || schem.description().toLowerCase().includes(filters.desc.toLowerCase());
 
 module.exports = {
-    filter: (schem) => {
-        return textFilter(schem) && descFilter(schem);
-    },
-    setFilter: (filter, value) => {
-        filters[filter] = value;
-    },
-    getFilter: (filter) => {
-        return filters[filter];
-    }
-}
+    filter: (schem) => textFilter(schem) && descFilter(schem),
+    setFilter: (filter, value) => (filters[filter] = value),
+    getFilter: (filter) => filters[filter]
+};
