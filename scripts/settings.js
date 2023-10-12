@@ -4,44 +4,17 @@ let repos = {
     load: () => {
         let repoString = Core.settings.get(repos.setting, "");
         repos.content = repoString ? repoString.split(";") : [];
+        Log.info(repos.setting)
     },
     save: () => { Core.settings.put(repos.setting, repos.content.join(";"));},
-    add: (url) => {
-        const isGitHubURL = /^((https:\/\/github\.com\/|git@github\.com:)([^/]+)\/([^/]+)\.git|([^/]+)\/([^/]+))$/.test(url);
-    
-        if (!isGitHubURL) {
-            return;
-        }
-    
-        let user, repo;
-    
-        if (input.includes('/')) {
-            // Extract user and repo from the "user/repo" format.
-            [user, repo] = input.split('/');
-        } else {
-            // Extract user and repo from the GitHub URL.
-            const match = input.match(/github\.com[\/:]([^/]+)\/([^/]+)\.git$/);
-            
-            if (!match) {
-                return;
-            }
-    
-            [_, user, repo] = match;
-        }
-    
-        const repoFullName = user+"/"+repoClean;
-    
-        if (repos.content.includes(repoFullName)) {
-            console.log('Repository already exists in the list');
-            return;
-        }
-    
-        repos.content.push(repoFullName);
+    add: (repo) => {
+        if (repos.content.indexOf(repo) != -1) return;
+        repos.content.push(repo);
+        const stringsToRemove = ["git@github.com:", "test.git", "https://github.com/"];
+        repos.content = repos.content.filter(repo => !stringsToRemove.some(str => repo.includes(str)));
         repos.save();
         repos.load();
     },
-
-
     remove: (repo) => {
         if (repos.content.indexOf(repo) == -1) return;
         repos.content.splice(repos.content.indexOf(repo), 1);
