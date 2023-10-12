@@ -6,8 +6,14 @@ let repos = {
         repos.content = repoString ? repoString.split(";") : [];
         Log.info(repos.setting)
     },
-    save: () => { Core.settings.put(repos.setting, repos.content.join(";"));},
+    save: () => { Core.settings.put(repos.setting, repos.content.join(";")); },
     add: (repo) => {
+        const stringsToRemove = ["github","@",".com/","https://",".git", "git",".com:"];
+        stringsToRemove.forEach((str) => {
+            while (repo.includes(str)) {
+                repo = repo.replace(str, '');
+            }
+        });
         if (repos.content.indexOf(repo) != -1) return;
         repos.content.push(repo);
         repos.save();
@@ -35,7 +41,7 @@ module.exports = {
         let textbuffer = "";
         Vars.ui.settings.addCategory("Schematic Browser", Icon.host, cons((t) => {
 
-            let paneTable = t.table(cons(() => {})).center().get();
+            let paneTable = t.table(cons(() => { })).center().get();
             t.row();
             let rebuildPane = (t) => {
                 t.clear();
@@ -44,7 +50,7 @@ module.exports = {
                     repos.content.forEach(repo => {
                         const repoColor = errorRepo.includes(repo) ? "#ee9090" : (loadedRepo.includes(repo) ? "#90ee90" : null);
                         pane.label(() => {
-                            return repoColor ? `[${repoColor}]${repo}` : repo;
+                            return repoColor ? '['+repoColor+']'+repo : repo;
                         });
                         pane.button(Icon.cancel, () => {
                             repos.remove(repo);
@@ -58,19 +64,18 @@ module.exports = {
 
             t.table(cons((tt) => {
                 tt.image(Icon.github);
-            
+
                 const field = tt.field("", (s) => {
                     textbuffer = s;
-                }).width(250).pad(5).get();
-            
+                }).width(250).pad(5).get().setMessageText("author/repository");;
+              
                 const addButton = tt.button(Icon.add, () => {
                     if (textbuffer) {
                         field.text = "";
                         repos.add(textbuffer);
                         rebuildPane(paneTable);
                     }
-                }).pad(10).disabled(() => !textbuffer);  
-                field.setMessageText("author/repository");
+                }).pad(10).disabled(() => !textbuffer);
             })).center();
         }));
     }
