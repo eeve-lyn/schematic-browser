@@ -1,5 +1,14 @@
-import { schems, schemsObj, errorRepos } from "schem-browser/fetch";
-import { setFilter, getFilter, filter } from "schem-browser/filter";
+let {
+    schems,
+    schemsObj,
+    errorRepos
+} = require("schem-browser/fetch");
+
+let {
+    setFilter,
+    getFilter,
+    filter
+} = require("schem-browser/filter");
 
 function showInfo(schem) {
     let dialog = new BaseDialog("[[" + Core.bundle.get("schematic") + "] " +schem.name());
