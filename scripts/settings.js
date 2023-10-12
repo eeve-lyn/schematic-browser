@@ -6,16 +6,16 @@ let repos = {
         repos.content = repoString ? repoString.split(";") : [];
         Log.info(repos.setting)
     },
-    save: () => { Core.settings.put(repos.setting, repos.content.join(";"));},
+    save: () => { Core.settings.put(repos.setting, repos.content.join(";")); },
     add: (repo) => {
         if (repos.content.indexOf(repo) != -1) return;
         const stringsToRemove = ["git@github.com:", "git", "https://github.com/"];
-          for (const str of stringsToRemove) {
+        stringsToRemove.forEach((str) => {
             while (repo.includes(str)) {
-            data = repo.replace(str, '');
+                repo = repo.replace(str, '');
             }
-        }
-        repos.content.push(data);
+        });
+        repos.content.push(repo);
         repos.save();
         repos.load();
     },
@@ -41,7 +41,7 @@ module.exports = {
         let textbuffer = "";
         Vars.ui.settings.addCategory("Schematic Browser", Icon.host, cons((t) => {
 
-            let paneTable = t.table(cons(() => {})).center().get();
+            let paneTable = t.table(cons(() => { })).center().get();
             t.row();
             let rebuildPane = (t) => {
                 t.clear();
@@ -64,18 +64,18 @@ module.exports = {
 
             t.table(cons((tt) => {
                 tt.image(Icon.github);
-            
+
                 const field = tt.field("", (s) => {
                     textbuffer = s;
                 }).width(250).pad(5).get();
-            
+
                 const addButton = tt.button(Icon.add, () => {
                     if (textbuffer) {
                         field.text = "";
                         repos.add(textbuffer);
                         rebuildPane(paneTable);
                     }
-                }).pad(10).disabled(() => !textbuffer);  
+                }).pad(10).disabled(() => !textbuffer);
                 field.setMessageText("author/repository");
             })).center();
         }));
