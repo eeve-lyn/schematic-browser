@@ -10,7 +10,7 @@ let repos = {
     add: (repo) => {
         if (repos.content.indexOf(repo) != -1) return;
         
-        repos.content.push(modifiedRepo);
+        repos.content.push(repo);
         repos.save();
         repos.load();
     },
