@@ -6,25 +6,41 @@ let repos = {
         repos.content = repoString ? repoString.split(";") : [];
     },
     save: () => { Core.settings.put(repos.setting, repos.content.join(";"));},
-    add: (repo) => {
-        const match = repo.match(/github\.com[\/:]([^/]+)\/([^/]+)\.git$/);
+    add: (url) => {
+        const isGitHubURL = /^((https:\/\/github\.com\/|git@github\.com:)([^/]+)\/([^/]+)\.git|([^/]+)\/([^/]+))$/.test(url);
     
-        if (!match) {
-            Vars.ui.hudfrag.showToast('Invalid GitHub repository URL');
+        if (!isGitHubURL) {
             return;
         }
     
-        const [_, user, repoClean] = match;
+        let user, repo;
     
-        if (repos.content.includes(`${user}/${repoClean}`)) {
-            Vars.ui.hudfrag.showToast('Repository already exists in the list');
+        if (input.includes('/')) {
+            // Extract user and repo from the "user/repo" format.
+            [user, repo] = input.split('/');
+        } else {
+            // Extract user and repo from the GitHub URL.
+            const match = input.match(/github\.com[\/:]([^/]+)\/([^/]+)\.git$/);
+            
+            if (!match) {
+                return;
+            }
+    
+            [_, user, repo] = match;
+        }
+    
+        const repoFullName = user+"/"+repoClean;
+    
+        if (repos.content.includes(repoFullName)) {
+            console.log('Repository already exists in the list');
             return;
         }
     
-        repos.content.push(`${user}/${repoClean}`);
+        repos.content.push(repoFullName);
         repos.save();
         repos.load();
-    },
+    }
+
 
     remove: (repo) => {
         if (repos.content.indexOf(repo) == -1) return;
