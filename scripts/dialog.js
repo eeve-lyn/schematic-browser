@@ -119,11 +119,11 @@ module.exports = () => {
             let cols = Math.max(Math.floor(Core.graphics.getWidth() / Scl.scl(230)), 1);
             Object.keys(schematics).forEach((repo) => {
                 //if (errorRepo.includes(repo)) return;
+                p.add(repo).center().color(Pal.accent);
+        	p.row();
+                p.image().growX().padTop(10).height(3).color(Pal.accent).center();
+                p.row();
                 p.table(cons(t => {
-                    t.add(repo).center().color(Pal.accent);
-                    t.row();
-                    t.image().growX().pad(5).padLeft(0).padRight(0).height(3).color(Pal.accent).center();
-                    t.row();
                     schematics[repo].forEach(schem => {
                         if (!filter(schem)) return;
 
