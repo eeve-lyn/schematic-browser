@@ -50,7 +50,7 @@ module.exports = {
                     repos.content.forEach(repo => {
                         const repoColor = errorRepo.includes(repo) ? "#ee9090" : (loadedRepo.includes(repo) ? "#90ee90" : null);
                         pane.label(() => {
-                            return repoColor ? `[${repoColor}]${repo}` : repo;
+                            return repoColor ? '['+repoColor+']'+repo : repo;
                         });
                         pane.button(Icon.cancel, () => {
                             repos.remove(repo);
