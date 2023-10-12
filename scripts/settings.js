@@ -9,8 +9,13 @@ let repos = {
     save: () => { Core.settings.put(repos.setting, repos.content.join(";"));},
     add: (repo) => {
         if (repos.content.indexOf(repo) != -1) return;
-        
-        repos.content.push(repo);
+        const stringsToRemove = ["git@github.com:", "git", "https://github.com/"];
+          for (const str of stringsToRemove) {
+            while (repo.includes(str)) {
+            data = repo.replace(str, '');
+            }
+        }
+        repos.content.push(data);
         repos.save();
         repos.load();
     },
