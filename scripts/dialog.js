@@ -14,18 +14,15 @@ let dialogConfig = require('schem-browser/ui-config');
 
 function showInfo(schem) {
     let dialog = new BaseDialog(dialogConfig.dialogTitle);
-    if (dialogConfig.closeButtonEnabled) {
-        dialog.addCloseButton();
-    }
-    
-    dialog.cont.add(dialogConfig.schematicInfoText).color(dialogConfig.textColor).row();
+    dialog.addCloseButton();
+    dialog.cont.add(Core.bundle.format("schematic.info", schem.width, schem.height, schem.tiles.size)).color(Color.lightGray).row();
     dialog.cont.add(new SchematicsDialog.SchematicImage(schem)).maxSize(dialogConfig.schematicImageMaxSize).row();
     
     let arr = schem.requirements().toSeq();
     dialog.cont.table(cons(r => {
         let i = 0;
         arr.each(s => {
-            r.image(s.item.uiIcon).left().size(dialogConfig.padding.image);
+            r.image(s.item.uiIcon).left().size(Vars.iconMed);
             r.label(() => {
                 return `[lightgray]${s.amount}`;
             }).padLeft(dialogConfig.padding.left).left().padRight(dialogConfig.padding.right);
