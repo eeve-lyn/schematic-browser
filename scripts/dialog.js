@@ -10,24 +10,23 @@ let {
     filter
 } = require("schem-browser/filter");
 
-let dialogConfig = require('schem-browser/ui-config');
-
 function showInfo(schem) {
-    let dialog = new BaseDialog(dialogConfig.dialogTitle);
+    let dialog = new BaseDialog("[[" + Core.bundle.get("schematic") + "] " +schem.name());
     dialog.addCloseButton();
+
     dialog.cont.add(Core.bundle.format("schematic.info", schem.width, schem.height, schem.tiles.size)).color(Color.lightGray).row();
-    dialog.cont.add(new SchematicsDialog.SchematicImage(schem)).maxSize(dialogConfig.schematicImageMaxSize).row();
-    
+    dialog.cont.add(new SchematicsDialog.SchematicImage(schem)).maxSize(800).row();
+
     let arr = schem.requirements().toSeq();
     dialog.cont.table(cons(r => {
         let i = 0;
         arr.each(s => {
             r.image(s.item.uiIcon).left().size(Vars.iconMed);
             r.label(() => {
-                return `[lightgray]${s.amount}`;
-            }).padLeft(dialogConfig.padding.left).left().padRight(dialogConfig.padding.right);
-            i++;
-            if (i % dialogConfig.imageRowItems == 0) {
+                return "[lightgray]" + s.amount + "";
+            }).padLeft(2).left().padRight(4);
+            i++
+            if (i % 4 == 0) {
                 r.row();
             }
         });
