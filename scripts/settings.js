@@ -4,15 +4,28 @@ let repos = {
     load: () => {
         let repoString = Core.settings.get(repos.setting, "");
         repos.content = repoString ? repoString.split(";") : [];
-        Log.info(repos.setting)
     },
     save: () => { Core.settings.put(repos.setting, repos.content.join(";"));},
     add: (repo) => {
-        if (repos.content.indexOf(repo) != -1) return;
-        repos.content.push(repo);
+        const match = repo.match(/github\.com[\/:]([^/]+)\/([^/]+)\.git$/);
+    
+        if (!match) {
+            Vars.ui.hudfrag.showToast('Invalid GitHub repository URL');
+            return;
+        }
+    
+        const [_, user, repoClean] = match;
+    
+        if (repos.content.includes(`${user}/${repoClean}`)) {
+            Vars.ui.hudfrag.showToast('Repository already exists in the list');
+            return;
+        }
+    
+        repos.content.push(`${user}/${repoClean}`);
         repos.save();
         repos.load();
     },
+
     remove: (repo) => {
         if (repos.content.indexOf(repo) == -1) return;
         repos.content.splice(repos.content.indexOf(repo), 1);
