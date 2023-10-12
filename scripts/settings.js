@@ -67,7 +67,8 @@ module.exports = {
 
                 const field = tt.field("", (s) => {
                     textbuffer = s;
-                }).width(250).pad(5).get().setMessageText("author/repository");
+                }).width(250).pad(5).get();
+                field.setMessageText("author/repository");
               
                 const addButton = tt.button(Icon.add, () => {
                     if (textbuffer) {
