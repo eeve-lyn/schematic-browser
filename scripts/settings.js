@@ -16,7 +16,7 @@ let repos = {
             repo = repo.replace(str, '');
             }
         }
-        repos.content.push(data);
+        repos.content.push(repo);
         repos.save();
         repos.load();
     },
