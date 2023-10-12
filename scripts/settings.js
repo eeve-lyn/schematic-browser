@@ -11,10 +11,8 @@ let repos = {
         if (repos.content.indexOf(repo) != -1) return;
         const stringsToRemove = ["git@github.com:", "git", "https://github.com/"];
   
-        for (const str of stringsToRemove) {
-            while (repo.includes(str)) {
-            repo = repo.replace(str, '');
-            }
+        for (const string of stringsToRemove) {
+            repo = repo.replace(string, '');
         }
         repos.content.push(repo);
         repos.save();
