@@ -39,7 +39,7 @@ let repos = {
         repos.content.push(repoFullName);
         repos.save();
         repos.load();
-    }
+    },
 
 
     remove: (repo) => {
