@@ -4,6 +4,7 @@ let repos = {
     load: () => {
         let repoString = Core.settings.get(repos.setting, "");
         repos.content = repoString ? repoString.split(";") : [];
+        Log.info(repos.setting)
     },
     save: () => { Core.settings.put(repos.setting, repos.content.join(";"));},
     add: (repo) => {
