@@ -67,8 +67,8 @@ module.exports = {
 
                 const field = tt.field("", (s) => {
                     textbuffer = s;
-                }).width(250).pad(5).get();
-
+                }).width(250).pad(5).get().setMessageText("author/repository");;
+              
                 const addButton = tt.button(Icon.add, () => {
                     if (textbuffer) {
                         field.text = "";
@@ -76,7 +76,6 @@ module.exports = {
                         rebuildPane(paneTable);
                     }
                 }).pad(10).disabled(() => !textbuffer);
-                field.setMessageText("author/repository");
             })).center();
         }));
     }
