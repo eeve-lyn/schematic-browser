@@ -6,9 +6,9 @@ let repos = {
         repos.content = repoString ? repoString.split(";") : [];
         Log.info(repos.setting)
     },
-    save: () => { Core.settings.put(repos.setting, repos.content.join(";")); },
+    save: () => { Core.settings.put(repos.setting, repos.content.join(";")); },        
     add: (repo) => {
-        const stringsToRemove = ["github","@",".com/","https://",".git", "git",".com:"];
+        const stringsToRemove = ["https://github.com/","git@github.com:",".git","gh repo clone"];
         stringsToRemove.forEach((str) => {
             while (repo.includes(str)) {
                 repo = repo.replace(str, '');
