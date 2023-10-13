@@ -5,8 +5,9 @@ const descFilter = (schem) => filters.desc === "" || schem.description().toLower
 const planetFilter = (schem) => {
     let serpulo = schem.requirements().toSeq().contains(boolf(i => Items.serpuloItems.contains(i.item) && !Items.erekirItems.contains(i.item)));
     let erekir = schem.requirements().toSeq().contains(boolf(i => Items.erekirItems.contains(i.item) && !Items.serpuloItems.contains(i.item)));
-    return (filters.planet == 0) || (filters.planet == 1  && serpulo && !erekir) || (filters.planet == 2  && !serpulo && erekir) || (filters.planet == 3  && serpulo && erekir);
-}
+    return [1, serpulo && !erekir, !serpulo && erekir, serpulo && erekir][filters.planet] || false;
+};
+
 
 module.exports = {
     filter: (schem) => textFilter(schem) && descFilter(schem) && planetFilter(schem),

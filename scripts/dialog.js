@@ -77,15 +77,10 @@ function filtersDialog() {
                 }).pad(10)
                 s.pane(h => {
                     h.defaults().height(50).width(150).pad(10);
-                    let planet = (string, num) => {
-                        h.button(string, Styles.togglet, () => {
-			                if (getFilter("planet") == num) setFilter("planet", 0);
-			                else setFilter("planet", num)
-			            }).checked(() => getFilter("planet") == num);
-		            };
-                    planet("Serpulo", 1);
-		            planet("Erekir", 2);
-		            planet("Mixtech", 3);
+                    ["Serpulo", "Erekir", "Mixtech"].forEach((planet, num) => {
+			    h.button(planet, Styles.togglet, () => setFilter("planet", getFilter("planet") === num + 1 ? 0 : num + 1))
+				    .checked(() => getFilter("planet") === num + 1);
+		    });
                 }).fill();
             })).growX().left().pad(5);
             p.row();
