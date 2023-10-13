@@ -59,7 +59,7 @@ function showInfo(schem) {
 function filtersDialog() {
     let dialog = new BaseDialog("Filters");
     dialog.cont.table(Tex.button, cons(t => {
-        t.pane((p) => {
+        t.table(cons(p => {
             p.table(cons((tt) => {
                 tt.label(() => {
                     return "Description:"
@@ -68,9 +68,28 @@ function filtersDialog() {
                 let field = tt.field(getFilter("desc"), (s) => {
                     setFilter("desc", s)
                 }).growX().pad(10).get().setMessageText("...");
-            })).growX().left();
+            })).growX().left().pad(5);
             p.row();
-        }).growX().fillY().top();
+
+            p.table(cons(s => {
+                s.label(() => {
+                    return "Planet:"
+                }).pad(10)
+                s.pane(h => {
+                    h.defaults().height(50).width(150).pad(10);
+                    let planet = (string, num) => {
+                        h.button(string, Styles.togglet, () => {
+			                if (getFilter("planet") == num) setFilter("planet", 0);
+			                else setFilter("planet", num)
+			            }).checked(() => getFilter("planet") == num);
+		            };
+                    planet("Serpulo", 1);
+		            planet("Erekir", 2);
+		            planet("Mixtech", 3);
+                }).fill();
+            })).growX().left().pad(5);
+            p.row();
+        })).grow();
     })).grow().pad(70);
     dialog.addCloseButton();
     return dialog;
