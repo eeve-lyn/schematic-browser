@@ -3,7 +3,9 @@ const filters = { text: "", desc: "", planet: 0};
 const textFilter = (schem) => filters.text === "" || schem.name().toLowerCase().includes(filters.text.toLowerCase());
 const descFilter = (schem) => filters.desc === "" || schem.description().toLowerCase().includes(filters.desc.toLowerCase());
 const planetFilter = (schem) => {
-    if (filters.planet == 0) return false;
+    let serpulo = schem.requirements().toSeq().contains(boolf(i => Items.serpuloItems.contains(i.item) && !Items.erekirItems.contains(i.item)));
+    let erekir = schem.requirements().toSeq().contains(boolf(i => Items.erekirItems.contains(i.item) && !Items.serpuloItems.contains(i.item)));
+    return (filters.planet == 0) || (filters.planet == 1  && serpulo && !erekir) || (filters.planet == 2  && !serpulo && erekir) || (filters.planet == 3  && serpulo && erekir);
 }
 
 module.exports = {
