@@ -10,6 +10,8 @@ let {
     filter
 } = require("schem-browser/filter");
 
+let dialog;
+
 function showInfo(schem) {
     let dialog = new BaseDialog("[[" + Core.bundle.get("schematic") + "] " +schem.name());
     dialog.addCloseButton();
@@ -103,16 +105,16 @@ function schemImage(t, schem) {
         table.row();
         table.table(Tex.button, cons(s => {
             s.defaults().height(50).width(55).pad(5);
-            s.button(Icon.download, Styles.emptyi, () => {
-                Vars.ui.showInfoFade("@schematic.saved");
-                Vars.schematics.add(schem);
-            });
+            s.button(Icon.hammer, Styles.emptyi, () => {
+		dialog.hide();
+                Vars.control.input.useSchematic(schem);
+            }).disabled(Vars.state.isMenu() || !Vars.state.rules.schematicsAllowed);
             s.button(Icon.info, Styles.emptyi, () => {
                 showInfo(schem);
             });
             s.button(Icon.copy, Styles.emptyi, () => {
-                Vars.ui.showInfoFade("@copied");
-                Core.app.setClipboardText(Vars.schematics.writeBase64(schem));
+                Vars.ui.showInfoFade("@schematic.saved");
+                Vars.schematics.add(schem);
             });
 
         })).width(200).height(55).fillX().padTop(5);
@@ -123,7 +125,7 @@ module.exports = () => {
     let schematics = schemsObj();
     let errorRepo = errorRepos();
     let filterDialog = filtersDialog();
-    let dialog = new BaseDialog("Schematic Browser");
+    dialog = new BaseDialog("Schematic Browser");
     dialog.addCloseButton();
     dialog.cont.table(cons(t => {
         let table = new Table();
