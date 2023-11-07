@@ -94,21 +94,27 @@ function filtersDialog() {
 
 function schemImage(t, schem) {
     t.table(cons(table => {
-        table.stack(new SchematicsDialog.SchematicImage(schem).setScaling(Scaling.fit), new Table(cons(n => {
-            n.top();
+	table.button(cons((bn) => {
+		bn.stack(new SchematicsDialog.SchematicImage(schem).setScaling(Scaling.fit), new Table(cons(n => {
+                n.top();
             n.table(Styles.black3, c => {
                 let label = c.add(schem.name()).style(Styles.outlineLabel).color(Color.white).top().growX().maxWidth(200 - 8).get();
                 label.setEllipsis(true);
                 label.setAlignment(Align.center);
             }).growX().margin(1).pad(4).maxWidth(Scl.scl(200 - 8)).padBottom(0);
         }))).size(200);
+            }), Styles.emptyi, () => {
+            dialog.hide();
+            Vars.ui.schematics.hide();
+            Vars.control.input.useSchematic(schem);
+        });
         table.row();
         table.table(Tex.button, cons(s => {
             s.defaults().height(50).width(55).pad(5);
-            s.button(Icon.hammer, Styles.emptyi, () => {
-		dialog.hide();
-                Vars.control.input.useSchematic(schem);
-            }).disabled(Vars.state.isMenu() || !Vars.state.rules.schematicsAllowed);
+            s.button(Icon.download, Styles.emptyi, () => {
+		Vars.ui.showInfoFade("@schematic.saved");
+                Vars.schematics.add(schem);
+	    });
             s.button(Icon.info, Styles.emptyi, () => {
                 showInfo(schem);
             });
