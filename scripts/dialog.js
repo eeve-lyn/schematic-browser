@@ -86,6 +86,14 @@ function filtersDialog() {
                 }).fill();
             })).growX().left().pad(5);
             p.row();
+            p.check(
+                "Hide schematics that cannot be placed",
+                (checked) => setFilter("hideNotPlaceable", checked)
+            ).left().row();
+            p.check(
+                "Hide unaffordable schematics",
+                (checked) => setFilter("hideTooExpensive", checked)
+            ).left().row();
         })).grow();
     })).grow().pad(70);
     dialog.addCloseButton();
