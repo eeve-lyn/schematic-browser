@@ -89,11 +89,11 @@ function filtersDialog() {
             p.check(
                 "Placeable",
                 (checked) => setFilter("hideNotPlaceable", checked)
-            ).left().row().pad(5);
+            ).left().pad(5).row();
             p.check(
                 "Affordable",
                 (checked) => setFilter("hideTooExpensive", checked)
-            ).left().row().pad(5);
+            ).left().pad(5).row();
         })).grow();
     })).grow().pad(70);
     dialog.addCloseButton();
