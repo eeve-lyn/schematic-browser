@@ -24,20 +24,7 @@ const placeableFilter = (schem) => (
         )
         .empty
 );
-const affordableFilter = (schem) => {
-    if (!filters.hideTooExpensive) {
-        return true;
-    }
-    const team = Vars.player.team();
-    if (!team) {
-        return true;
-    }
-    let affordable = true;
-    for (let item of schem.requirements().toArray()) {
-        affordable = affordable && team.items().get(item.item) >= item.amount;
-    }
-    return affordable;
-};
+const affordableFilter = (schem) => !filters.hideTooExpensive || Vars.player.team().items().has(schem.requirements());
 
 
 module.exports = {
