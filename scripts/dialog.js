@@ -86,6 +86,14 @@ function filtersDialog() {
                 }).fill();
             })).growX().left().pad(5);
             p.row();
+            p.check(
+                "Placeable",
+                (checked) => setFilter("hideNotPlaceable", checked)
+            ).left().row().pad(5);
+            p.check(
+                "Affordable",
+                (checked) => setFilter("hideTooExpensive", checked)
+            ).left().row().pad(5);
         })).grow();
     })).grow().pad(70);
     dialog.addCloseButton();
