@@ -70,8 +70,7 @@ function filtersDialog() {
                 let field = tt.field(getFilter("desc"), (s) => {
                     setFilter("desc", s)
                 }).growX().pad(10).get().setMessageText("...");
-            })).growX().left().pad(5);
-            p.row();
+            })).growX().left().pad(5).row();
 
             p.table(cons(s => {
                 s.label(() => {
@@ -84,16 +83,15 @@ function filtersDialog() {
 				    .checked(() => getFilter("planet") === num + 1);
 		    });
                 }).fill();
-            })).growX().left().pad(5);
-            p.row();
+            })).growX().left().pad(5).row();
             p.check(
                 "Placeable",
                 (checked) => setFilter("hideNotPlaceable", checked)
-            ).left().row().pad(5);
+            ).left().pad(5).row();
             p.check(
                 "Affordable",
                 (checked) => setFilter("hideTooExpensive", checked)
-            ).left().row().pad(5);
+            ).left().pad(5).row();
         })).grow();
     })).grow().pad(70);
     dialog.addCloseButton();
